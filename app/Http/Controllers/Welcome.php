@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Http\Controllers;
+require_once('MakePDF.php');
+
+use Illuminate\Http\Request;
+use PDF;
+class Welcome extends Controller
+{
+  public function index()
+ {
+
+    $service_url = 'https://appdsapi-6aa0.kxcdn.com/content.php?lang=de&json=1&search_text=berlin&currencyiso=EUR';
+    $curl = curl_init($service_url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $curl_response = curl_exec($curl);
+    if ($curl_response === false) {
+        $info = curl_getinfo($curl);
+        curl_close($curl);
+        die('error occured during curl exec. Additioanl info: ' . var_export($info));
+    }
+    curl_close($curl);
+    $decoded = json_decode($curl_response);
+    if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
+        die('error occured: ' . $decoded->response->errormessage);
+    }
+
+    $arr = array(
+
+        "valore1",
+        "valore2",
+        "valore3",
+
+    );
+
+    return view('welcome',['response'=>$decoded->content]);
+ }
+ public function makePDF(Request $request){
+
+
+   PDF::SetTitle($request->title);
+   // set margins
+   PDF::SetMargins(0, 0, 0);
+   PDF::SetHeaderMargin(0);
+   PDF::SetFooterMargin(0);
+   PDF::setPrintFooter(false);
+   PDF::AddPage();
+   /*PDF::writeHTML($html_content, true, false, true, false, '');*/
+   PDF::setImageScale ( PDF_IMAGE_SCALE_RATIO );
+   PDF::setJPEGQuality ( 90 );
+   /*PDF::Image ( $request->thumbnail);*/
+   /*Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)*/
+   PDF::Image ($request->thumbnail, 0, 0, 210, 297, '', $request->thumbnail, '', false, 300, '', false, false, 0,$fitonpage=true);
+   PDF::Output('SamplePDF.pdf');
+
+ }
+}
