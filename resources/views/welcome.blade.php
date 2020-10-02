@@ -149,14 +149,14 @@
         methods: {
           changeItem: function changeItem(rowId, event) {
             $.ajax({
-              url: 'https://www.mypostcard.com/mobile/product_prices.php?json=1&type=get_postcard_products&currencyiso=EUR&store_id='+rowId,
+              url: '//www.mypostcard.com/mobile/product_prices.php?json=1&type=get_postcard_products&currencyiso=EUR&store_id='+rowId,
 
               crossDomain: true,
               type:"GET",
               contentType: "application/json; charset=utf-8",
               async:false,
                   success: function (result) {
-                      console.log(result);
+                      //console.log(result);
                       this.selected = parseFloat(result['products']['0']['product_options'][event.target.value]['price'])
                       +parseFloat(result['products']['0']['price']) ;
                       document.getElementById('p'+rowId).innerHTML = "€ "+this.selected ;
