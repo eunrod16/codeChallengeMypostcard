@@ -10,38 +10,16 @@
 
     <title>MyPostCard</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/dashboard/">
-
     <!-- Bootstrap core CSS -->
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/welcome.css" rel="stylesheet">
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
-
-
-
-    <!-- Custom styles for this template -->
-
-    <style media="screen">
-      .is-active{
-            background: #f5b232;
-      }
-      .iconNavBar{
-        max-width: 10%;
-        margin-left: 5%;
-      }
-      .thumbnail{
-        max-width: 25%;
-      }
-      .thOptions{
-        width: 20%
-      }
-    </style>
   </head>
-<script src="/js/app.js"></script>
+
+  <script src="/js/app.js"></script>
+
   <body>
-    {{ csrf_field() }}
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
       <div>
         <img src="mypostcardIcon.png" class="iconNavBar"></img>
@@ -83,9 +61,6 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-
-
-
           <h2>Items List</h2>
           <div  id="app">
             <table id="tableItems" class="table table-striped table-bordered">
@@ -97,7 +72,6 @@
                   <th class="thOptions">Price Options</th>
                   <th>Price</th>
                   <th>Actions</th>
-
                 </tr>
               </thead>
               <tbody>
@@ -127,9 +101,7 @@
                                 <span data-feather="download"></span>
                             </button>
                         </form>
-
                         </td>
-
                     </tr>
                     @php if($counter==4) $counter=0;
                     $counter++;
@@ -178,13 +150,11 @@
           changeItem: function changeItem(rowId, event) {
             $.ajax({
               url: 'https://www.mypostcard.com/mobile/product_prices.php?json=1&type=get_postcard_products&currencyiso=EUR&store_id='+rowId,
-              headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded'
-                  },
-                  type: "GET", /* or type:"GET" or type:"PUT" */
-                  dataType: "json",
-                  data: {
-                  },
+
+              crossDomain: true,
+              type:"GET",
+              contentType: "application/json; charset=utf-8",
+              async:false,
                   success: function (result) {
                       console.log(result);
                       this.selected = parseFloat(result['products']['0']['product_options'][event.target.value]['price'])
@@ -196,8 +166,6 @@
                   }
             });
 
-
-            console.log(this.selected)
           }
         }
     });

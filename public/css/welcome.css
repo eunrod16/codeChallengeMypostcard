@@ -2,7 +2,19 @@ body {
   font-size: .875rem;
 }
 
-
+.is-active{
+      background: #f5b232;
+}
+.iconNavBar{
+  max-width: 10%;
+  margin-left: 5%;
+}
+.thumbnail{
+  max-width: 25%;
+}
+.thOptions{
+  width: 20%
+}
 /*
  * Sidebar
  */
