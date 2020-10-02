@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="mypostcardIcon.png">
@@ -97,6 +97,7 @@
                           <form method="POST" action="{{ route('makePDF') }}">
                             <input type="hidden" name="title" value="{{ $item->title }}">
                             <input type="hidden" name="thumbnail" value="{{ $item->thumb_url }}">
+                            <input type="hidden" name="orientation" value="{{ $item->orientation }}">
                             {!! csrf_field() !!}
                             <button type="submit" class="btn">
                                 <span data-feather="download"></span>

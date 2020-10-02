@@ -51,13 +51,22 @@ class Welcome extends Controller
    PDF::SetHeaderMargin(0);
    PDF::SetFooterMargin(0);
    PDF::setPrintFooter(false);
-   PDF::AddPage();
+   if($request->orientation=='portrait') {
+     PDF::AddPage('P', 'A4');
+     $w = 210;
+     $h = 297;
+   }
+   else{
+     PDF::AddPage('L', 'A4');
+     $w = 297;
+     $h = 210;
+   }
    /*PDF::writeHTML($html_content, true, false, true, false, '');*/
    PDF::setImageScale ( PDF_IMAGE_SCALE_RATIO );
    PDF::setJPEGQuality ( 90 );
    /*PDF::Image ( $request->thumbnail);*/
    /*Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)*/
-   PDF::Image ($request->thumbnail, 0, 0, 210, 297, '', $request->thumbnail, '', false, 300, '', false, false, 0,$fitonpage=true);
+   PDF::Image ($request->thumbnail, 0, 0, $w,  $h,'', '', '', false, 300, '', false, false, 0,$fitonpage=true);
    PDF::Output('SamplePDF.pdf');
  }
 }
