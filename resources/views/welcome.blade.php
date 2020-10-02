@@ -96,7 +96,7 @@
                         <td>
                           <form method="POST" action="{{ route('makePDF') }}">
                             <input type="hidden" name="title" value="{{ $item->title }}">
-                            <input type="hidden" name="thumbnail" value="{{ $item->thumb_url }}">
+                            <input type="hidden" name="thumbnail" value="{{ $item->full_url }}">
                             <input type="hidden" name="orientation" value="{{ $item->orientation }}">
                             {!! csrf_field() !!}
                             <button type="submit" class="btn">

@@ -48,9 +48,8 @@ class Welcome extends Controller
    PDF::SetTitle($request->title);
    // set margins
    PDF::SetMargins(0, 0, 0);
-   PDF::SetHeaderMargin(0);
-   PDF::SetFooterMargin(0);
-   PDF::setPrintFooter(false);
+   PDF::setCellPaddings(0,0,0,0);
+   PDF::SetAutoPageBreak(TRUE, 0);
    if($request->orientation=='portrait') {
      PDF::AddPage('P', 'A4');
      $w = 210;
@@ -58,15 +57,15 @@ class Welcome extends Controller
    }
    else{
      PDF::AddPage('L', 'A4');
-     $w = 297;
-     $h = 210;
+     $w = 347;
+     $h = 290;
    }
    /*PDF::writeHTML($html_content, true, false, true, false, '');*/
    PDF::setImageScale ( PDF_IMAGE_SCALE_RATIO );
-   PDF::setJPEGQuality ( 90 );
+   PDF::setJPEGQuality ( 10 );
    /*PDF::Image ( $request->thumbnail);*/
    /*Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)*/
-   PDF::Image ($request->thumbnail, 0, 0, $w,  $h,'', '', '', false, 300, '', false, false, 0,$fitonpage=true);
+   PDF::Image ($request->thumbnail, 0, 0, $w,  $h,'', '', '', false, 200, '', false, false, 0,$fitonpage=true);
    PDF::Output('SamplePDF.pdf');
  }
 }
