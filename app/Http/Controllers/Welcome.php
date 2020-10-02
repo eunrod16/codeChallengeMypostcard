@@ -45,8 +45,19 @@ class Welcome extends Controller
  }
 
  public function makePDF(Request $request){
-
+   PDF::SetTitle($request->title);
    // set margins
-    PDF::Output('SamplePDF.pdf');
+   PDF::SetMargins(0, 0, 0);
+   PDF::SetHeaderMargin(0);
+   PDF::SetFooterMargin(0);
+   PDF::setPrintFooter(false);
+   PDF::AddPage();
+   /*PDF::writeHTML($html_content, true, false, true, false, '');*/
+   PDF::setImageScale ( PDF_IMAGE_SCALE_RATIO );
+   PDF::setJPEGQuality ( 90 );
+   /*PDF::Image ( $request->thumbnail);*/
+   /*Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)*/
+   PDF::Image ($request->thumbnail, 0, 0, 210, 297, '', $request->thumbnail, '', false, 300, '', false, false, 0,$fitonpage=true);
+   PDF::Output('SamplePDF.pdf');
  }
 }
