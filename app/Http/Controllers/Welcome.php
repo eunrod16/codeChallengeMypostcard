@@ -45,7 +45,7 @@ class Welcome extends Controller
  }
 
  public function makePDF(Request $request){
-   PDF::SetTitle($request->title);
+
    // set margins
     PDF::Output('SamplePDF.pdf');
  }
