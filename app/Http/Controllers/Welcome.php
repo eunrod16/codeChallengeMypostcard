@@ -17,27 +17,34 @@ class Welcome extends Controller
     if ($curl_response === false) {
         $info = curl_getinfo($curl);
         curl_close($curl);
-        die('error occured during curl exec. Additioanl info: ' . var_export($info));
+        die('error occured during curl exec. ' . var_export($info));
     }
     curl_close($curl);
-    $decoded = json_decode($curl_response);
-    if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-        die('error occured: ' . $decoded->response->errormessage);
+    $jsonRes = json_decode($curl_response);
+    if (isset($jsonRes->response->status) && $decoded->response->status == 'ERROR') {
+        die('error: ' . $jsonRes->response->errormessage);
     }
 
-    $arr = array(
-
-        "valore1",
-        "valore2",
-        "valore3",
-
-    );
-
-    return view('welcome',['response'=>$decoded->content]);
+    return view('welcome',['response'=>$jsonRes->content]);
  }
+
+ public function getPrices(Request $request){
+   $service_url = 'http://www.mypostcard.com/mobile/product_prices.php?json=1&type=get_postcard_products&currencyiso=EUR&store_id='.$request->rowId;
+   $curl = curl_init($service_url);
+   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+   $curl_response = curl_exec($curl);
+   if ($curl_response === false) {
+       $info = curl_getinfo($curl);
+       curl_close($curl);
+       die('error occured during curl exec. ' . var_export($info));
+   }
+   curl_close($curl);
+
+
+   return $curl_response;
+ }
+
  public function makePDF(Request $request){
-
-
    PDF::SetTitle($request->title);
    // set margins
    PDF::SetMargins(0, 0, 0);
@@ -52,6 +59,5 @@ class Welcome extends Controller
    /*Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)*/
    PDF::Image ($request->thumbnail, 0, 0, 210, 297, '', $request->thumbnail, '', false, 300, '', false, false, 0,$fitonpage=true);
    PDF::Output('SamplePDF.pdf');
-
  }
 }

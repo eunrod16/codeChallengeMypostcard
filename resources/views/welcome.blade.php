@@ -149,14 +149,15 @@
         methods: {
           changeItem: function changeItem(rowId, event) {
             $.ajax({
-              url: '//www.mypostcard.com/mobile/product_prices.php?json=1&type=get_postcard_products&currencyiso=EUR&store_id='+rowId,
-
-              crossDomain: true,
-              type:"GET",
-              contentType: "application/json; charset=utf-8",
-              async:false,
+              url: "{{route('getPrices')}}",
+              data:{
+                _token: $('input[name=_token]').val(),
+                rowId:rowId
+              },
+              type:"POST",
+              dataType: "json",
                   success: function (result) {
-                      //console.log(result);
+                      console.log(result);
                       this.selected = parseFloat(result['products']['0']['product_options'][event.target.value]['price'])
                       +parseFloat(result['products']['0']['price']) ;
                       document.getElementById('p'+rowId).innerHTML = "€ "+this.selected ;

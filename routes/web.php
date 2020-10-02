@@ -17,3 +17,4 @@ Route::get('/', function () {
 */
 Route::resource('/', 'Welcome');
 Route::post('makePDF', 'Welcome@makePDF')->name('makePDF');
+Route::post('getPrices', 'Welcome@getPrices')->name('getPrices');
